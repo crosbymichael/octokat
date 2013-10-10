@@ -54,6 +54,8 @@ func TestJSONPost(t *testing.T) {
 
 	m := make(map[string]interface{})
 	client.jsonPost("foo", nil, &m)
+
+	assert.Equal(t, "foo", m["ok"])
 }
 
 func TestBuildURL(t *testing.T) {

@@ -39,6 +39,23 @@ func TestPost(t *testing.T) {
 	client.post("foo", nil, bytes.NewBufferString(content))
 }
 
+func TestJSONPost(t *testing.T) {
+	setup()
+	defer tearDown()
+
+	mux.HandleFunc("/foo", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		testHeader(t, r, "Accept", MediaType)
+		testHeader(t, r, "User-Agent", UserAgent)
+		testHeader(t, r, "Content-Type", DefaultContentType)
+		testBody(t, r, "")
+		respondWith(w, `{"ok": "foo"}`)
+	})
+
+	m := make(map[string]interface{})
+	client.jsonPost("foo", nil, &m)
+}
+
 func TestBuildURL(t *testing.T) {
 	url, _ := client.buildURL("https://api.github.com")
 	assert.Equal(t, "https://api.github.com", url.String())

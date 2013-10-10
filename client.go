@@ -66,7 +66,14 @@ func (c *Client) jsonPost(path string, options *Options, v interface{}) error {
 		buffer = bytes.NewBuffer(b)
 	}
 
-	body, err := c.post(path, headers, buffer)
+	var body []byte
+	var err error
+	// This looks odd, but we need to do this: http://golang.org/doc/faq#nil_error
+	if buffer == nil {
+		body, err = c.post(path, headers, nil)
+	} else {
+		body, err = c.post(path, headers, buffer)
+	}
 	if err != nil {
 		return err
 	}

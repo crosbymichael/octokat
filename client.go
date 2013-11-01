@@ -40,6 +40,14 @@ func (c *Client) jsonGet(path string, options *Options, v interface{}) error {
 	var headers Headers
 	if options != nil {
 		headers = options.Headers
+
+		if options.QueryParams != nil {
+			params := url.Values{}
+			for k, v := range options.QueryParams {
+				params.Set(k, v)
+			}
+			path = fmt.Sprintf("%s?%s", path, params.Encode())
+		}
 	}
 
 	body, err := c.get(path, headers)

@@ -20,7 +20,7 @@ type Comment struct {
 //
 // See http://developer.github.com/v3/pulls/comments/
 func (c *Client) Comments(repo Repo, number string, options *Options) (comments []Comment, err error) {
-	path := fmt.Sprint("repos/%s/issues/%s/comments", repo, number)
+	path := fmt.Sprintf("repos/%s/issues/%s/comments", repo, number)
 	err = c.jsonGet(path, options, &comments)
 	return
 }

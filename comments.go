@@ -24,3 +24,14 @@ func (c *Client) Comments(repo Repo, number string, options *Options) (comments 
 	err = c.jsonGet(path, options, &comments)
 	return
 }
+
+// Add a comment to an issue or pull request
+//
+// See http://developer.github.com/v3/issues/comments/#create-a-comment
+func (c *Client) AddComment(repo Repo, number, body string) (comment Comment, err error) {
+	path := fmt.Sprintf("repos/%s/issues/%s/comments", repo, number)
+	options := &Options{Params: map[string]string{"body": body}}
+
+	err = c.jsonPost(path, options, &comment)
+	return
+}

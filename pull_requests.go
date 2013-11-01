@@ -38,7 +38,6 @@ type PullRequest struct {
 	Deletions         int        `json:"deletions,omitempty"`
 	ChangedFiles      int        `json:"changed_files,omitempty"`
 	Mergeable         bool       `json:"mergeable,omitempty"`
-	MergedBy          *User      `json:"merged_by,omitempty"`
 }
 
 type Commit struct {

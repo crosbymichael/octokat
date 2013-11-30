@@ -37,6 +37,7 @@ type PullRequest struct {
 	Additions         int        `json:"additions,omitempty"`
 	Deletions         int        `json:"deletions,omitempty"`
 	ChangedFiles      int        `json:"changed_files,omitempty"`
+	Mergeable         bool       `json:"mergeable,omitempty"`
 }
 
 type Commit struct {
@@ -53,6 +54,15 @@ type Commit struct {
 func (c *Client) PullRequest(repo Repo, number string, options *Options) (pr *PullRequest, err error) {
 	path := fmt.Sprintf("repos/%s/pulls/%s", repo, number)
 	err = c.jsonGet(path, options, &pr)
+	return
+}
+
+// Get all pull requests
+//
+// See http://developer.github.com/v3/pulls/#list-pull-requests
+func (c *Client) PullRequests(repo Repo, options *Options) (prs []*PullRequest, err error) {
+	path := fmt.Sprintf("repos/%s/pulls", repo)
+	err = c.jsonGet(path, options, &prs)
 	return
 }
 

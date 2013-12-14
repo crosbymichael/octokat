@@ -40,6 +40,19 @@ type PullRequest struct {
 	Mergeable         bool       `json:"mergeable,omitempty"`
 }
 
+type PullRequestFile struct {
+	FileName    string `json:"filename,omitempty"`
+	Sha         string `json:"sha,omitempty"`
+	Status      string `json:"status,omitempty"`
+	Additions   int    `json:"additions,omitempty"`
+	Deletions   int    `json:"deletions,omitempty"`
+	Changes     int    `json:"changes,omitempty"`
+	BlobUrl     string `json:"blob_url,omitempty"`
+	RawUrl      string `json:"raw_url,omitempty"`
+	ContentsUrl string `json:"contents_url,omitempty"`
+	Patch       string `json:"patch,omitempty"`
+}
+
 type Commit struct {
 	Label string     `json:"label,omitempty"`
 	Ref   string     `json:"ref,omitempty"`
@@ -63,6 +76,15 @@ func (c *Client) PullRequest(repo Repo, number string, options *Options) (pr *Pu
 func (c *Client) PullRequests(repo Repo, options *Options) (prs []*PullRequest, err error) {
 	path := fmt.Sprintf("repos/%s/pulls", repo)
 	err = c.jsonGet(path, options, &prs)
+	return
+}
+
+// Get all pull request files
+//
+// See http://developer.github.com/v3/pulls/#list-pull-requests-files
+func (c *Client) PullRequestFiles(repo Repo, number string, options *Options) (prfs []*PullRequestFile, err error) {
+	path := fmt.Sprintf("repos/%s/pulls/%s/files", repo, number)
+	err = c.jsonGet(path, options, &prfs)
 	return
 }
 

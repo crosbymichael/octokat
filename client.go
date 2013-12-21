@@ -36,6 +36,10 @@ func (c *Client) post(path string, headers Headers, content io.Reader) ([]byte, 
 	return c.request("POST", path, headers, content)
 }
 
+func (c *Client) patch(path string, headers Headers, content io.Reader) ([]byte, error) {
+	return c.request("PATCH", path, headers, content)
+}
+
 func (c *Client) put(path string, headers Headers, content io.Reader) ([]byte, error) {
 	return c.request("PUT", path, headers, content)
 }
@@ -121,6 +125,40 @@ func (c *Client) jsonPut(path string, options *Options, v interface{}) error {
 	}
 
 	body, err := c.put(path, headers, content)
+	if err != nil {
+		return err
+	}
+
+	return jsonUnmarshal(body, v)
+
+}
+
+func (c *Client) jsonPatch(path string, options *Options, v interface{}) error {
+	var headers Headers
+	if options != nil {
+		headers = options.Headers
+	}
+
+	var buffer *bytes.Buffer
+	if options != nil && options.Params != nil {
+		b, err := jsonMarshal(options.Params)
+		if err != nil {
+			return err
+		}
+
+		buffer = bytes.NewBuffer(b)
+	}
+
+	// *bytes.Buffer(nil) != nil
+	// see http://golang.org/doc/faq#nil_error
+	var content io.Reader
+	if buffer == nil {
+		content = nil
+	} else {
+		content = buffer
+	}
+
+	body, err := c.patch(path, headers, content)
 	if err != nil {
 		return err
 	}

@@ -45,7 +45,7 @@ type Issue struct {
 // List issues
 //
 // See http://developer.github.com/v3/issues/#list-issues-for-a-repository
-func (c *Client) Issues(repo Repo, options *Options) (issues []Issue, err error) {
+func (c *Client) Issues(repo Repo, options *Options) (issues []*Issue, err error) {
 	path := fmt.Sprintf("repos/%s/issues", repo)
 	err = c.jsonGet(path, options, &issues)
 	return
@@ -54,8 +54,17 @@ func (c *Client) Issues(repo Repo, options *Options) (issues []Issue, err error)
 // Fetch a single issue
 //
 // See http://developer.github.com/v3/issues/#get-a-single-issue
-func (c *Client) Issue(repo Repo, number int, options *Options) (issues Issue, err error) {
+func (c *Client) Issue(repo Repo, number int, options *Options) (issue *Issue, err error) {
 	path := fmt.Sprintf("repos/%s/issues/%d", repo, number)
-	err = c.jsonGet(path, options, &issues)
+	err = c.jsonGet(path, options, &issue)
+	return
+}
+
+// Edit an issue
+//
+// See http://developer.github.com/v3/issues/#edit-an-issue
+func (c *Client) PatchIssue(repo Repo, number string, options *Options) (patchedIssue *Issue, err error) {
+	path := fmt.Sprintf("repos/%s/issues/%s", repo, number)
+	err = c.jsonPatch(path, options, &patchedIssue)
 	return
 }

@@ -42,7 +42,7 @@ func TestIssue(t *testing.T) {
 	validateIssue(t, issue)
 }
 
-func validateIssue(t *testing.T, issue Issue) {
+func validateIssue(t *testing.T, issue *Issue) {
 
 	assert.Equal(t, "https://api.github.com/repos/octocat/Hello-World/issues/1347", issue.URL)
 	assert.Equal(t, "https://github.com/octocat/Hello-World/issues/1347", issue.HTMLURL)

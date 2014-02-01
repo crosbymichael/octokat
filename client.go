@@ -87,7 +87,16 @@ func (c *Client) jsonPost(path string, options *Options, v interface{}) error {
 		buffer = bytes.NewBuffer(b)
 	}
 
-	body, err := c.post(path, headers, buffer)
+	// *bytes.Buffer(nil) != nil
+	// see http://golang.org/doc/faq#nil_error
+	var content io.Reader
+	if buffer == nil {
+		content = nil
+	} else {
+		content = buffer
+	}
+
+	body, err := c.post(path, headers, content)
 	if err != nil {
 		return err
 	}
@@ -111,7 +120,16 @@ func (c *Client) jsonPut(path string, options *Options, v interface{}) error {
 		buffer = bytes.NewBuffer(b)
 	}
 
-	body, err := c.put(path, headers, buffer)
+	// *bytes.Buffer(nil) != nil
+	// see http://golang.org/doc/faq#nil_error
+	var content io.Reader
+	if buffer == nil {
+		content = nil
+	} else {
+		content = buffer
+	}
+
+	body, err := c.put(path, headers, content)
 	if err != nil {
 		return err
 	}
@@ -136,7 +154,16 @@ func (c *Client) jsonPatch(path string, options *Options, v interface{}) error {
 		buffer = bytes.NewBuffer(b)
 	}
 
-	body, err := c.patch(path, headers, buffer)
+	// *bytes.Buffer(nil) != nil
+	// see http://golang.org/doc/faq#nil_error
+	var content io.Reader
+	if buffer == nil {
+		content = nil
+	} else {
+		content = buffer
+	}
+
+	body, err := c.patch(path, headers, content)
 	if err != nil {
 		return err
 	}

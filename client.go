@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type Client struct {
@@ -54,7 +55,11 @@ func (c *Client) jsonGet(path string, options *Options, v interface{}) error {
 			for k, v := range options.QueryParams {
 				params.Set(k, v)
 			}
-			path = fmt.Sprintf("%s?%s", path, params.Encode())
+			if strings.Contains(path, "?") {
+				path = fmt.Sprintf("%s&%s", path, params.Encode())
+			} else {
+				path = fmt.Sprintf("%s?%s", path, params.Encode())
+			}
 		}
 	}
 

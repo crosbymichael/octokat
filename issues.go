@@ -6,19 +6,15 @@ import (
 )
 
 type Issue struct {
-	URL     string `json:"url,omitempty,omitempty"`
-	HTMLURL string `json:"html_url,omitempty,omitempty"`
-	Number  int    `json:"number,omitempty"`
-	State   string `json:"state,omitempty"`
-	Title   string `json:"title,omitempty"`
-	Body    string `json:"body,omitempty"`
-	User    User   `json:"user,omitempty"`
-	Labels  []struct {
-		URL   string `json:"url,omitempty"`
-		Name  string `json:"name,omitempty"`
-		Color string `json:"color,omitempty"`
-	}
-	Assignee  User `json:"assignee,omitempty"`
+	URL       string   `json:"url,omitempty,omitempty"`
+	HTMLURL   string   `json:"html_url,omitempty,omitempty"`
+	Number    int      `json:"number,omitempty"`
+	State     string   `json:"state,omitempty"`
+	Title     string   `json:"title,omitempty"`
+	Body      string   `json:"body,omitempty"`
+	User      User     `json:"user,omitempty"`
+	Labels    []*Label `json:"labels,omitempty"`
+	Assignee  User     `json:"assignee,omitempty"`
 	Milestone struct {
 		URL          string     `json:"url,omitempty"`
 		Number       int        `json:"number,omitempty"`

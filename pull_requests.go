@@ -38,6 +38,7 @@ type PullRequest struct {
 	Deletions         int        `json:"deletions,omitempty"`
 	ChangedFiles      int        `json:"changed_files,omitempty"`
 	Mergeable         bool       `json:"mergeable,omitempty"`
+	CommentsBody      []Comment  `json:"-"`
 }
 
 type PullRequestFile struct {

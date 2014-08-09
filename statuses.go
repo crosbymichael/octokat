@@ -16,11 +16,35 @@ type Status struct {
 	Creator     User      `json:"creator,omitempty"`
 }
 
+type StatusOptions struct {
+	State       string `json:"state"`
+	Description string `json:"description"`
+	URL         string `json:"target_url"`
+	Context     string `json:"context"`
+}
+
 // List all statuses for a given commit
 //
 // See http://developer.github.com/v3/repos/statuses
 func (c *Client) Statuses(repo Repo, sha string, options *Options) (statuses []Status, err error) {
 	path := fmt.Sprintf("repos/%s/statuses/%s", repo, sha)
 	err = c.jsonGet(path, options, &statuses)
+	return
+}
+
+// Set a status for a given sha
+//
+// See https://developer.github.com/v3/repos/statuses/#create-a-status
+func (c *Client) SetStatus(repo Repo, sha string, options *StatusOptions) (status *Status, err error) {
+	path := fmt.Sprintf("repos/%s/statuses/%s", repo, sha)
+	mutOptions := &Options{
+		Params: map[string]string{
+			"state":       options.State,
+			"description": options.Description,
+			"target_url":  options.URL,
+			"context":     options.Context,
+		},
+	}
+	err = c.jsonPost(path, mutOptions, &status)
 	return
 }

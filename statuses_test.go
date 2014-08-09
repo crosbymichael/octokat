@@ -25,3 +25,32 @@ func TestStatuses(t *testing.T) {
 	assert.Equal(t, "The Travis CI build is in progress", firstStatus.Description)
 	assert.Equal(t, "https://travis-ci.org/jingweno/gh/builds/11911500", firstStatus.TargetURL)
 }
+
+func TestSetStatus(t *testing.T) {
+	setup()
+	defer tearDown()
+
+	mux.HandleFunc("/repos/erikh/test/statuses/5456e827a6b4930a3b1d727b7bd407b0b499c08f", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		respondWith(w, loadFixture("status_response.json"))
+	})
+
+	repo := Repo{UserName: "erikh", Name: "test"}
+	sha := "5456e827a6b4930a3b1d727b7bd407b0b499c08f"
+
+	opts := &StatusOptions{
+		State:       "success",
+		Description: "this is only a test",
+		URL:         "http://google.com",
+		Context:     "docci",
+	}
+
+	status, err := client.SetStatus(repo, sha, opts)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	assert.Equal(t, "this is only a test", status.Description)
+	assert.Equal(t, "success", status.State)
+}

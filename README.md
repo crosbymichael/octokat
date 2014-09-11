@@ -4,7 +4,7 @@ Simple Go wrapper for the GitHub API. It's extracted from [my other project](htt
 
 # GoDoc
 
-[http://godoc.org/github.com/jingweno/octokat](http://godoc.org/github.com/jingweno/octokat)
+[https://godoc.org/github.com/crosbymichael/octokat](https://godoc.org/github.com/crosbymichael/octokat)
 
 # Example
 
@@ -13,7 +13,7 @@ Simple Go wrapper for the GitHub API. It's extracted from [my other project](htt
 ```go
 package main
 
-import "github.com/jingweno/octokat"
+import "github.com/crosbymichael/octokat"
 
 func main() {
     client := octokat.NewClient()
@@ -27,7 +27,7 @@ func main() {
 ```go
 package main
 
-import "github.com/jingweno/octokat"
+import "github.com/crosbymichael/octokat"
 
 func main() {
     client := octokat.NewClient().WithLogin("LOGIN", "PASSWORD")
@@ -41,7 +41,7 @@ func main() {
 ```go
 package main
 
-import "github.com/jingweno/octokat"
+import "github.com/crosbymichael/octokat"
 
 func main() {
     client := octokat.NewClient().WithToken("OAUTH_TOKEN")

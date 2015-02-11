@@ -21,3 +21,9 @@ func (c *Client) ApplyLabel(repo Repo, issue *Issue, labels []string) error {
 	out := []*Label{}
 	return c.jsonPost(path, &Options{Params: labels}, &out)
 }
+
+func (c *Client) RemoveLabel(repo Repo, issue *Issue, label string) error {
+	path := fmt.Sprintf("repos/%s/issues/%d/labels/%s", repo, issue.Number, label)
+	_, err := c.request("DELETE", path, nil, nil)
+	return err
+}

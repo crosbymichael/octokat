@@ -16,8 +16,14 @@ func (c *Client) Labels(repo Repo) (labels []*Label, err error) {
 	return
 }
 
-func (c *Client) AppyLabel(repo Repo, issue *Issue, labels []string) error {
+func (c *Client) ApplyLabel(repo Repo, issue *Issue, labels []string) error {
 	path := fmt.Sprintf("repos/%s/issues/%d/labels", repo, issue.Number)
 	out := []*Label{}
 	return c.jsonPost(path, &Options{Params: labels}, &out)
+}
+
+func (c *Client) RemoveLabel(repo Repo, issue *Issue, label string) error {
+	path := fmt.Sprintf("repos/%s/issues/%d/labels/%s", repo, issue.Number, label)
+	_, err := c.request("DELETE", path, nil, nil)
+	return err
 }

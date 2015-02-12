@@ -1,9 +1,10 @@
 package octokat
 
 import (
-	"github.com/bmizerany/assert"
 	"net/http"
 	"testing"
+
+	"github.com/bmizerany/assert"
 )
 
 func TestStatuses(t *testing.T) {

@@ -14,6 +14,7 @@ type Status struct {
 	ID          int       `json:"id,omitempty"`
 	URL         string    `json:"url,omitempty"`
 	Creator     User      `json:"creator,omitempty"`
+	Context     string    `json:"context,omitempty"`
 }
 
 type StatusOptions struct {

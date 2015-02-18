@@ -54,14 +54,6 @@ type PullRequestFile struct {
 	Patch       string `json:"patch,omitempty"`
 }
 
-type Commit struct {
-	Label string     `json:"label,omitempty"`
-	Ref   string     `json:"ref,omitempty"`
-	Sha   string     `json:"sha,omitempty"`
-	User  User       `json:"user,omitempty"`
-	Repo  Repository `json:"repo,omitempty"`
-}
-
 // Get a pull request
 //
 // See http://developer.github.com/v3/pulls/#get-a-single-pull-request

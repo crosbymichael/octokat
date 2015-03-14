@@ -6,12 +6,42 @@ import (
 	"strings"
 )
 
+type IssueHook struct {
+	Action string      `json:"action"`
+	Sender *User       `json:"sender"`
+	Repo   *Repository `json:"repository"`
+	Issue  *Issue      `json:"issue"`
+}
+
 type PullRequestHook struct {
 	Action      string       `json:"action"`
 	Number      int          `json:"number"`
 	Sender      *User        `json:"sender"`
 	Repo        *Repository  `json:"repository"`
 	PullRequest *PullRequest `json:"pull_request"`
+}
+
+func ParseIssueHook(raw []byte) (*IssueHook, error) {
+	hook := IssueHook{}
+	if err := json.Unmarshal(raw, &hook); err != nil {
+		return nil, err
+	}
+
+	if hook.Issue == nil {
+		return nil, ErrInvalidPostReceiveHook
+	}
+
+	return &hook, nil
+}
+
+func (h *IssueHook) IsOpened() bool {
+	return h.Action == "opened"
+}
+
+// we will know if it is a comment if the Action is "created"
+// since with NSQ we can't parse the headers
+func (h *IssueHook) IsComment() bool {
+	return h.Action == "created"
 }
 
 func ParsePullRequestHook(raw []byte) (*PullRequestHook, error) {

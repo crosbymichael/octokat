@@ -27,8 +27,7 @@ type Issue struct {
 		CreatedAt    time.Time  `json:"created_at,omitempty"`
 		DueOn        *time.Time `json:"due_on,omitempty"`
 	}
-	Comments    int     `json:"comments,omitempty"`
-	Comment     Comment `json:"comment,omitempty"`
+	Comments    int `json:"comments,omitempty"`
 	PullRequest struct {
 		HTMLURL  string `json:"html_url,omitempty"`
 		DiffURL  string `json:"diff_url,omitempty"`

@@ -7,10 +7,11 @@ import (
 )
 
 type IssueHook struct {
-	Action string      `json:"action"`
-	Sender *User       `json:"sender"`
-	Repo   *Repository `json:"repository"`
-	Issue  *Issue      `json:"issue"`
+	Action  string      `json:"action"`
+	Sender  *User       `json:"sender"`
+	Repo    *Repository `json:"repository"`
+	Issue   *Issue      `json:"issue"`
+	Comment *Comment    `json:"comment, omitempty"`
 }
 
 type PullRequestHook struct {

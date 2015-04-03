@@ -45,6 +45,11 @@ func (c *Client) put(path string, headers Headers, content io.Reader) ([]byte, e
 	return c.request("PUT", path, headers, content)
 }
 
+func (c *Client) delete(path string, headers Headers) error {
+	_, err := c.request("DELETE", path, headers, nil)
+	return err
+}
+
 func (c *Client) jsonGet(path string, options *Options, v interface{}) error {
 	var headers Headers
 	if options != nil {

@@ -35,3 +35,8 @@ func (c *Client) AddComment(repo Repo, number, body string) (comment Comment, er
 	err = c.jsonPost(path, options, &comment)
 	return
 }
+
+func (c *Client) RemoveComment(repo Repo, commentId int) error {
+	path := fmt.Sprintf("repos/%s/issues/comments/%d", repo, commentId)
+	return c.delete(path, Headers{})
+}

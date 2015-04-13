@@ -24,6 +24,13 @@ type StatusOptions struct {
 	Context     string `json:"context"`
 }
 
+type CombinedStatus struct {
+	State      string   `json:"state"`
+	Sha        string   `json:"sha"`
+	TotalCount int      `json:"total_count"`
+	Statuses   []Status `json:"statuses"`
+}
+
 // List all statuses for a given commit
 //
 // See http://developer.github.com/v3/repos/statuses
@@ -31,6 +38,12 @@ func (c *Client) Statuses(repo Repo, sha string, options *Options) (statuses []S
 	path := fmt.Sprintf("repos/%s/statuses/%s", repo, sha)
 	err = c.jsonGet(path, options, &statuses)
 	return
+}
+
+func (c *Client) CombinedStatus(repo Repo, sha string, options *Options) (status CombinedStatus, err error) {
+	path := fmt.Sprintf("repos/%s/commits/%s/status", repo, sha)
+	err = c.jsonGet(path, options, &status)
+	return status, err
 }
 
 // Set a status for a given sha

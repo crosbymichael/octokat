@@ -36,6 +36,17 @@ func (c *Client) AddComment(repo Repo, number, body string) (comment Comment, er
 	return
 }
 
+// Add a comment to an issue or pull request
+//
+// See https://developer.github.com/v3/issues/comments/#edit-a-comment
+func (c *Client) PatchComment(repo Repo, number, body string) (comment Comment, err error) {
+	path := fmt.Sprintf("repos/%s/issues/%s/comments", repo, number)
+	options := &Options{Params: map[string]string{"body": body}}
+
+	err = c.jsonPatch(path, options, &comment)
+	return
+}
+
 func (c *Client) RemoveComment(repo Repo, commentId int) error {
 	path := fmt.Sprintf("repos/%s/issues/comments/%d", repo, commentId)
 	return c.delete(path, Headers{})

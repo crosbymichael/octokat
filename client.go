@@ -18,6 +18,11 @@ type Client struct {
 	Token      string
 }
 
+func (c *Client) WithHTTPClient(httpClient *http.Client) *Client {
+	c.httpClient = httpClient
+	return c
+}
+
 func (c *Client) WithLogin(login, password string) *Client {
 	c.Login = login
 	c.Password = password

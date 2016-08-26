@@ -64,3 +64,9 @@ func (c *Client) Commits(repo Repo, number string, options *Options) (commits []
 	err = c.jsonGet(path, options, &commits)
 	return
 }
+
+func (c *Client) Commit(repo Repo, ref string, options *Options) (commit Commit, err error) {
+	path := fmt.Sprintf("repos/%s/commits/%s", repo, ref)
+	err = c.jsonGet(path, options, &commit)
+	return
+}
